@@ -1,0 +1,45 @@
+<!-- restaurants/templates/restaurants/view_cart.html -->
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}QuickBites - View Cart{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1 class="mb-4">Your Cart</h1>
+
+    {% if cart.cartitem_set.all %}
+        <div class="row">
+            {% for item in cart.cartitem_set.all %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ item.menu_item.image.url }}" class="card-img-top" alt="{{ item.menu_item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.menu_item.name }}</h5>
+                            <p class="card-text">{{ item.menu_item.description }}</p>
+                            <p class="card-text">Price: KES {{ item.menu_item.price }}</p>
+                            <form method="post" action="{% url 'view_cart' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="cart_item_id" value="{{ item.id }}">
+                                <input type="number" name="new_quantity" value="{{ item.quantity }}" min="0">
+                                <button type="submit" class="btn btn-success btn-block mt-2">Update</button>
+                            </form>
+                            <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-block mt-2" style="background-color: transparent; color: black"><i class="fas fa-trash" style="color: black"></i> Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <p class="mt-4" style="color: black">Total Amount: KES {{ total_amount }}</p>
+        <a href="{% url 'checkout' %}" style="margin-bottom: 20px" class="btn btn-primary btn-block mt-2">Checkout</a>
+    {% else %}
+        <p style="color: black">Your cart is empty.</p>
+    {% endif %}
+
+<p><a style="font-size: 18px" href="{% url 'restaurant_list' %}">Back to Restaurants</a></p>
+</div>
+{% endblock %}
+

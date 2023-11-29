@@ -1,0 +1,30 @@
+<!-- restaurants/templates/restaurants/menu_page.html -->
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}QuickBites - {{ restaurant.name }} Menu{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1 class="mb-4">{{ restaurant.name }} Menu</h1>
+    <div class="row">
+        {% for item in restaurant.menu_items.all %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text">Price: KES {{ item.price }}</p>
+                        <form method="post" action="{% url 'add_to_cart' restaurant.id item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-block mt-2">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+<p><a style="font-size: 18px" href="{% url 'restaurant_list' %}">Back to Restaurants</a></p>
+</div>
+{% endblock %}

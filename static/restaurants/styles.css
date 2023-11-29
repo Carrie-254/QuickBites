@@ -1,0 +1,301 @@
+/* restaurants/static/restaurants/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    background-color: lavender;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+h1, h2 {
+    color: black; 
+}
+
+@font-face {
+  font-family: myFont;
+   src: url("/static/fonts/Hello Januari.ttf") format('truetype');
+}
+
+/* navbar */
+.custom-navbar {
+    background-color: black;
+    border: none;
+    box-shadow: none;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.custom-navbar .navbar-brand {
+    font-size: 22px;
+    font-family: myFont, sans-serif;
+    font-weight: 600;
+    color: snow;
+    text-decoration: none;
+    margin-left: 25px;
+}
+
+.custom-navbar ul.navbar-nav li.nav-item a {
+    padding-right: 20px;
+    color: snow; 
+}
+
+.custom-navbar ul.navbar-nav li.nav-item a:hover {
+    color: cyan; 
+}
+.custom-navbar ul.navbar-nav li.nav-item a:active{
+    color: cyan;
+}
+
+/* hero */
+
+.hero {
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0; 
+    text-align: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 2.5em; 
+    margin-bottom: 20px; 
+    color: white;
+}
+
+.hero p {
+    font-size: 1.2em; 
+    margin-bottom: 30px;
+}
+
+.hero a.btn-primary {
+    font-size: 1em; 
+}
+
+
+.container {
+    margin-top: 20px;
+}
+
+.card {
+    border: none;
+    margin-bottom: 20px;
+}
+
+.card img {
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.card p {
+    color: #000;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: black;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #272525;
+}
+
+.btn-success {
+    background-color: black;
+    border-color: #000;
+    font-size: medium;
+}
+
+.btn-success:hover {
+    background-color: #272525;
+}
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+
+.list-group-item {
+    border-color: #dee2e6;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+
+/* footer */
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 30px 0;
+    margin-top: auto;
+}
+
+.footer h5 {
+    color: #fff;
+}
+
+.footer p {
+    color: #ccc;
+    font-size: 18px;
+}
+
+.footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.social-icons li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.social-icons a:hover{
+    color: #007bff;
+}
+
+
+/* Testimonial Section */
+.testimonial-section {
+    padding-left: 70px; 
+    padding-right: 70px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+    background-color: lavender;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 45px;
+}
+
+.container-testi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.testimonial-content {
+    width: 50%;
+}
+
+.testi-text {
+    font-style: italic;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+}
+
+.author-img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.author-title {
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+}
+
+.testimonial-banner {
+    width: 47%;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+}
+
+
+/* How It Works Section */
+.how-it-works {
+    background-color: #000;
+    color: #fff;
+    padding: 40px 0;
+}
+
+.how-it-works-container {
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.step {
+    flex: 0 0 30%;
+    margin: 20px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.icon {
+    margin: 0 auto 20px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+p {
+    font-size: 17px;
+    color: #fff;
+}
+
+

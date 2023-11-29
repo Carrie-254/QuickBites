@@ -1,0 +1,61 @@
+<!-- restaurants/templates/restaurants/checkout.html -->
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}QuickBites - Checkout{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1 class="mb-4 text-center">Checkout</h1>
+
+    {% if payment_made %}
+        
+        <p>Thank you for your order! You can check the status of your order on the <a href="{% url 'your_orders' %}">Your Orders</a> page.<p/>
+        
+    {% else %}
+        {% if cart_items %}
+            <div class="card text-center mx-auto" style="max-width: 500px;">
+                <div class="card-header">
+                    <h5 class="card-title">Proceed to Pay with M-pesa</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                                <tr>
+                                    <td>{{ item.menu_item.name }}</td>
+                                    <td>KES {{ item.menu_item.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>KES {{ item.menu_item.price|floatformat:2 }} * {{ item.quantity|floatformat:2 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <p class="mt-4" style="color: black">Total Amount: KES {{ total_amount }}</p>
+                    
+                    <form method="post" action="{% url 'checkout' %}">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                        <button style="margin-bottom: 20px" class="btn btn-primary btn-block mt-2">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+                <p style="color: black">Your cart is empty.</p>
+        {% endif %}
+    {% endif %}
+
+    <p><a style="font-size: 18px" href="{% if payment_made %}{% url 'your_orders' %}{% else %}{% url 'view_cart' %}{% endif %}">Back to {% if payment_made %}Your Orders{% else %}Cart{% endif %}</a></p>
+</div>
+{% endblock %}
+
+

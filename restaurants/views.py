@@ -1,9 +1,4 @@
-# restaurants/views.py
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Restaurant, MenuItem, Cart, CartItem
-from django.urls import reverse_lazy
-from django.views import generic
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -20,25 +15,11 @@ def home(request):
     
     return render(request, 'home.html', { 'popular_dishes': popular_dishes})
 
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
-
-    def form_valid(self, form):
-        # Additional code to handle successful registration (e.g., sending a welcome email)
-        return redirect(self.success_url)
-
-def login_view(request):
-    form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form})
-
 def restaurant_list(request):
     restaurants = Restaurant.objects.all()
     return render(request, 'restaurant_list.html', {'restaurants': restaurants})
 
 
-@login_required
 def display_restaurants(request):
     restaurants = Restaurant.objects.all()
     # Calculate star ratings for each restaurant
@@ -56,7 +37,6 @@ def menu_page(request, restaurant_id):
     return render(request, 'menu_page.html', {'restaurant': restaurant})
 
 
-@login_required
 def add_to_cart(request, restaurant_id, menu_item_id):
     get_object_or_404(Restaurant, id=restaurant_id)
     menu_item = get_object_or_404(MenuItem, id=menu_item_id)
@@ -75,7 +55,6 @@ def add_to_cart(request, restaurant_id, menu_item_id):
     return redirect('view_cart')
 
 
-@login_required
 def view_cart(request):
     # Get the user's cart
     cart = get_object_or_404(Cart, user=request.user)
@@ -100,7 +79,6 @@ def view_cart(request):
     return render(request, 'view_cart.html', {'cart': cart, 'total_amount': total_amount})
 
 
-@login_required
 def remove_from_cart(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id)
 
@@ -112,7 +90,6 @@ def remove_from_cart(request, cart_item_id):
     return redirect('view_cart')
 
 
-@login_required
 def checkout(request):
     user = request.user
     cart_items = CartItem.objects.filter(cart__user=user)
@@ -143,27 +120,25 @@ def checkout(request):
                 )
 
             # Create the Payment object
-            payment = Payment.objects.create(order=order, amount=total_amount)    
+            Payment.objects.create(order=order, amount=total_amount)    
 
             # Process M-Pesa STK Push
-            account_reference = f'order_{order.id}'  # Use a unique reference for each order
+            account_reference = f'order_{order.id}'
             transaction_desc = 'Order Payment'
-            callback_url = 'https://api.darajambili.com/express-payment'  # Replace with your actual callback URL
+            callback_url = 'https://api.darajambili.com/express-payment'
 
-            # Initialize the MpesaClient with your credentials
             mpesa_client = MpesaClient()
 
             amount = int(total_amount)
-            
+
             # Trigger M-Pesa STK Push
-            response = mpesa_client.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+            mpesa_client.stk_push(phone_number,amount, account_reference, transaction_desc, callback_url)
             
-            # If you want to handle the response or log it, you can do it here
 
             # Clear the user's cart after successful order placement
             user.cart.items.clear()
 
-            return HttpResponse(response)
+            return HttpResponse("Payment request sent to M-Pesa. Check your phone for STK Push.")
     else:
         form = PaymentForm()
 
@@ -176,7 +151,6 @@ def checkout(request):
     return render(request, 'checkout.html', context)
 
 
-@login_required
 def your_orders(request):
     user = request.user
     orders = Order.objects.filter(user=user).prefetch_related('order_items__menu_item')

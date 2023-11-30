@@ -1,11 +1,10 @@
-# restaurants/models.py
 from django.contrib.auth.models import User
 from django.db import models
 
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='restaurant_images/', default='images/doc.jpg')
+    image = models.ImageField(upload_to='restaurant_images/', default='images/ppl.jpg')
     rating = models.FloatField(default=0)
     # Add more fields as needed
 
